@@ -1,0 +1,9 @@
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://vh0e8m5n6by5"]
+
+[ext_resource type="FontFile" uid="uid://cptajlv6cih2s" path="res://assets/fonts/VT323-Regular.ttf" id="1_ensdj"]
+
+[resource]
+Label/colors/font_shadow_color = Color(0.00550725, 0.079, 0.0343356, 0.603922)
+Label/constants/shadow_outline_size = 10
+Label/font_sizes/font_size = 36
+Label/fonts/font = ExtResource("1_ensdj")

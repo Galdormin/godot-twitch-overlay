@@ -1,0 +1,48 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=5
+
+[application]
+
+config/name="Godot Overlay"
+config/version="0.1"
+run/main_scene="res://scenes/main.tscn"
+config/features=PackedStringArray("4.3", "GL Compatibility")
+config/icon="res://assets/icons/app_icon.svg"
+
+[autoload]
+
+Loggie="*res://addons/loggie/loggie.gd"
+StreamerBotManager="*res://core/managers/streamer_bot_manager.gd"
+SettingsManager="*res://core/managers/settings_manager.gd"
+
+[display]
+
+window/size/viewport_width=1600
+window/size/viewport_height=960
+window/size/resizable=false
+window/size/transparent=true
+window/per_pixel_transparency/allowed=true
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/awaitable_http_request/plugin.cfg", "res://addons/custom_theme_overrides/plugin.cfg", "res://addons/loggie/plugin.cfg")
+
+[loggie]
+
+general/log_level=4
+general/show_system_specs=false
+timestamps/output_timestamps=true
+preprocessing/derive_and_display_class_names_from_scripts=true
+preprocessing/nameless_class_name_proxy=1
+
+[rendering]
+
+renderer/rendering_method="gl_compatibility"
+renderer/rendering_method.mobile="gl_compatibility"

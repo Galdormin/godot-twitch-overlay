@@ -1,0 +1,168 @@
+[gd_scene load_steps=5 format=3 uid="uid://sxvk28gxkcqv"]
+
+[ext_resource type="Texture2D" uid="uid://cifmubu6jbayx" path="res://assets/images/ditto.png" id="1_5vosq"]
+[ext_resource type="Theme" uid="uid://vh0e8m5n6by5" path="res://resources/themes/pokemon_theme.tres" id="1_d746o"]
+[ext_resource type="Script" path="res://addons/awaitable_http_request/awaitable_http_request.gd" id="2_lvym2"]
+
+[sub_resource type="GDScript" id="GDScript_5u8ji"]
+script/source = "extends Control
+
+class Pokemon:
+	var name: String
+	var cry_url: String
+	var default_url: String
+	var shiny_url: String
+
+
+@onready var http_request = $HTTPRequest
+@onready var display_timer = $DisplayTimer
+
+@onready var pokemon_container = $PokemonContainer
+@onready var pokemon_image = %PokemonImage
+@onready var pokemon_label = %PokemonLabel
+@onready var pokemon_audio = $AudioStreamPlayer
+
+
+func _ready() -> void:
+	pokemon_container.hide()
+	StreamerBotManager.command_received.connect(_on_command_received)
+
+
+func _load_image(image_url: String) -> ImageTexture:
+	var resp = await http_request.async_request(image_url)
+	if !resp.success() or resp.status_err():
+		Loggie.msg(\"Error when request pokemon image. Code: \", resp.status).error()
+		return
+	
+	var image = Image.new()
+	var error = image.load_png_from_buffer(resp.bytes)
+	if error != OK:
+		Loggie.msg(\"Couldn't load the image.\").error()
+	
+	return ImageTexture.create_from_image(image)
+
+
+func _load_cry(cry_url: String) -> AudioStreamOggVorbis:
+	var resp = await http_request.async_request(cry_url)
+	if !resp.success() or resp.status_err():
+		Loggie.msg(\"Error when request pokemon image. Code: \", resp.status).error()
+		return
+	
+	return AudioStreamOggVorbis.load_from_buffer(resp.bytes)
+
+
+func _get_pokemon_data(poke_id: int) -> Pokemon:
+	# Request Pokemon
+	var resp = await http_request.async_request(\"https://pokeapi.co/api/v2/pokemon/\" + str(poke_id))
+	if !resp.success() or resp.status_err():
+		Loggie.msg(\"Error when request pokemon data. Code: \", resp.status).error()
+		return
+	
+	var poke_data = resp.body_as_json()
+	
+	# Request Species
+	resp = await http_request.async_request(poke_data[\"species\"][\"url\"])
+	if !resp.success() or resp.status_err():
+		Loggie.msg(\"Error when request pokemon species. Code: \", resp.status).error()
+		return
+	
+	var poke_species = resp.body_as_json()
+	
+	var pokemon = Pokemon.new()
+	pokemon.name = poke_species[\"names\"][4][\"name\"]
+	pokemon.cry_url = poke_data[\"cries\"][\"latest\"]
+	pokemon.default_url = poke_data[\"sprites\"][\"other\"][\"official-artwork\"][\"front_default\"]
+	pokemon.shiny_url = poke_data[\"sprites\"][\"other\"][\"official-artwork\"][\"front_shiny\"]
+	
+	return pokemon
+
+
+func _on_command_received(command_name: String, user: TwitchUser):
+	if command_name != SettingsManager.get_setting(\"POKEMON_COMMAND\"):
+		return
+	
+	var hash_val = _get_daily_hash(user)
+	var poke_id = hash_val % 1025 + 1
+	var pokemon = await _get_pokemon_data(poke_id)
+	
+	if not pokemon:
+		Loggie.msg(\"Could not find the pokemon. poke_id: \", poke_id).error()
+		return
+	
+	pokemon_label.text = \"Aujourd'hui \" + user.username + \" est \" + pokemon.name
+	
+	pokemon_audio.stream = await _load_cry(pokemon.cry_url)
+	pokemon_audio.volume_db = -40 + 40 * SettingsManager.get_setting(\"POKEMON_VOLUME\")
+	
+	if (hash_val / 1025) % 512:
+		pokemon_image.texture = await _load_image(pokemon.default_url)
+	else:
+		pokemon_image.texture = await _load_image(pokemon.shiny_url)
+	
+	display_timer.start()
+	pokemon_container.show()
+	pokemon_audio.play()
+
+func _get_daily_hash(user: TwitchUser) -> int:
+	var date = Time.get_date_string_from_system()
+	
+	var hash_data = date + user.username
+	var hash_val = hash_data.md5_buffer().slice(0, 8).decode_u64(0)
+	
+	if hash_val < 0:
+		return -hash_val
+	
+	return hash_val
+
+func _on_display_timer_timeout() -> void:
+	pokemon_container.hide()
+"
+
+[node name="DailyPokemon" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_d746o")
+script = SubResource("GDScript_5u8ji")
+
+[node name="PokemonContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -251.0
+offset_top = -199.0
+offset_right = 308.0
+offset_bottom = 185.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PokemonLabel" type="Label" parent="PokemonContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Aujourd'hui GaldoBot est Ditto"
+horizontal_alignment = 1
+
+[node name="PokemonImage" type="TextureRect" parent="PokemonContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+texture = ExtResource("1_5vosq")
+expand_mode = 2
+stretch_mode = 5
+
+[node name="HTTPRequest" type="HTTPRequest" parent="."]
+script = ExtResource("2_lvym2")
+
+[node name="DisplayTimer" type="Timer" parent="."]
+wait_time = 5.0
+one_shot = true
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+
+[connection signal="timeout" from="DisplayTimer" to="." method="_on_display_timer_timeout"]
