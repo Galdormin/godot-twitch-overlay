@@ -1,8 +1,15 @@
 extends Node
 
+enum {CLOSED, CONNECTING, CONNECTED}
+
 signal command_received(command: String, user: TwitchUser)
+signal status_changed(status)
 
 var socket: WebSocketPeer
+var status = CLOSED:
+	set(p_status):
+		status_changed.emit(p_status)
+		status = p_status
 
 func _ready() -> void:
 	await SettingsManager.ready
@@ -11,27 +18,39 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	socket.poll()
 	var state = socket.get_ready_state()
-
+	
 	if state == WebSocketPeer.STATE_OPEN:
 		while socket.get_available_packet_count():
 			_handle_packet(socket.get_packet())
 	elif state == WebSocketPeer.STATE_CLOSING:
 		pass
 	elif state == WebSocketPeer.STATE_CLOSED:
-		var code = socket.get_close_code()
-		Loggie.msg("WebSocket closed with code: ", code)
-		set_process(false) # Stop processing
+		status = CLOSED
+		Loggie.msg("Connection closed to StreamerBot.").info()
+		set_process(false)
 
 func connect_to_websocket():
 	var websocket_url = SettingsManager.get_setting("WEBSOCKET_ADDRESS")
 	socket = WebSocketPeer.new()
 	
-	Loggie.msg("Connection to StreamerBot on ", websocket_url).info()
+	status = CONNECTING
+	get_tree().create_timer(3).timeout.connect(_has_connected)
+	set_process(true)
+	
+	Loggie.msg("Connecting to StreamerBot on ", websocket_url).info()
 	var err = socket.connect_to_url(websocket_url)
 	if err:
 		Loggie.msg("Unable to connect to StreamerBot. Code: ", err).error()
 		set_process(false)
 		return
+
+func _has_connected():
+	if status == CONNECTED:
+		return
+	
+	status = CLOSED
+	Loggie.msg("Couldn't connect to StreamerBot.").warn()
+	set_process(false)
 
 func _subscribe():
 	var subscribe = {
@@ -52,6 +71,7 @@ func _handle_packet(packet: PackedByteArray):
 	
 	var data = JSON.parse_string(raw_data) as Dictionary
 	if "request" in data:
+		status = CONNECTED
 		Loggie.msg("Connection successful to StreamerBot.").info()
 		_subscribe()
 		return

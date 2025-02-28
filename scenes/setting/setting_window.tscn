@@ -31,7 +31,7 @@ func _on_quit_button_pressed() -> void:
 	hide()
 "
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_yb0uh"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_120jx"]
 shader = ExtResource("2_jeotl")
 shader_parameter/target_color = Color(1, 1, 1, 1)
 
@@ -63,7 +63,7 @@ layout_mode = 2
 alignment = 2
 
 [node name="QuitButton" type="TextureButton" parent="VBoxContainer/HBoxContainer"]
-material = SubResource("ShaderMaterial_yb0uh")
+material = SubResource("ShaderMaterial_120jx")
 custom_minimum_size = Vector2(30, 30)
 layout_mode = 2
 texture_normal = ExtResource("3_5w5h7")

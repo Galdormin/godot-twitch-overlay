@@ -21,6 +21,7 @@ config/icon="res://assets/icons/app_icon.svg"
 Loggie="*res://addons/loggie/loggie.gd"
 StreamerBotManager="*res://core/managers/streamer_bot_manager.gd"
 SettingsManager="*res://core/managers/settings_manager.gd"
+HttpRequestManager="*res://core/managers/http_request_manager.gd"
 
 [display]
 
