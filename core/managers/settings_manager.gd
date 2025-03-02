@@ -2,27 +2,44 @@ extends Node
 
 const SETTINGS_FILE_PATH: String = "user://settings.cfg"
 
-var config = ConfigFile.new()
+var settings: AllSettings = AllSettings.new()
 
 func _ready() -> void:
-	var err = config.load(SETTINGS_FILE_PATH)
-	if err == ERR_FILE_NOT_FOUND:
-		set_default_settings()
-		save()
-	elif err != OK:
-		Loggie.msg("opening config file failed. Code: " + str(err)).error()
-		return
+	load_settings()
 
-func save():
+
+func save_settings():
+	var config = ConfigFile.new()
+
+	var settings_properties = settings.get_setting_properties()
+	for category_name in settings_properties:
+		for section_name in settings_properties[category_name]:
+			var cfg_section_name = category_name.to_upper() + "/" + section_name.to_upper()			
+			for property in settings_properties[category_name][section_name]:
+				var value = settings.get(category_name).get(property.name)
+				config.set_value(cfg_section_name, property.name, value)
+	
 	config.save(SETTINGS_FILE_PATH)
 
-func set_default_settings():
-	config.set_value("GENERAL", "WEBSOCKET_ADDRESS", "ws://127.0.0.1:8080/")
-	config.set_value("GENERAL", "POKEMON_COMMAND", "!pkmn")
-	config.set_value("GENERAL", "POKEMON_VOLUME", 0.5)
+func load_settings():
+	var config = ConfigFile.new()
+	var err = config.load(SETTINGS_FILE_PATH)
+	if err != OK:
+		Loggie.msg("opening config file failed. Code: " + str(err)).error()
+		reset_settings()
+		return
+	
+	var settings_properties = settings.get_setting_properties()
+	for category_name in settings_properties:
+		for section_name in settings_properties[category_name]:
+			var cfg_section_name = category_name.to_upper() + "/" + section_name.to_upper()
+			if not config.has_section(cfg_section_name):
+				continue
+			
+			for property in settings_properties[category_name][section_name]:
+				if config.has_section_key(cfg_section_name, property.name):
+					var value = config.get_value(cfg_section_name, property.name)
+					settings.get(category_name).set(property.name, value)
 
-func get_setting(key: String) -> Variant:
-	return config.get_value("GENERAL", key)
-
-func set_setting(key: String, value: Variant):
-	config.set_value("GENERAL", key, value)
+func reset_settings():
+	settings = AllSettings.new()

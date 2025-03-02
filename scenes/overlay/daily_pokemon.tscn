@@ -56,7 +56,7 @@ func request_pokemon(user: TwitchUser):
 	var cry_stream = await HttpRequestManager.request_ogg(pokemon.cry_url)
 	if cry_stream is Ok:
 		pokemon_audio.stream = cry_stream.unwrap()
-		pokemon_audio.volume_db = -40 + 40 * SettingsManager.get_setting(\"POKEMON_VOLUME\")
+		pokemon_audio.volume_db = linear_to_db(SettingsManager.settings.pokemon.pokemon_volume)
 	else:
 		Loggie.msg(\"Request pokemon\", poke_id, \"without cry.\").warn()
 	
@@ -123,7 +123,7 @@ func _get_daily_hash(user: TwitchUser) -> int:
 #region Signals
 
 func _on_command_received(command_name: String, user: TwitchUser):
-	if command_name != SettingsManager.get_setting(\"POKEMON_COMMAND\"):
+	if command_name != SettingsManager.settings.pokemon.pokemon_command:
 		return
 	
 	request_pokemon(user)

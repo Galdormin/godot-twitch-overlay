@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://65ritdyf5dsc"]
+
+[ext_resource type="Script" path="res://scenes/setting/auto_settings/auto_settings.gd" id="1_jb0jv"]
+
+[node name="AutoSettings" type="VBoxContainer"]
+offset_right = 1600.0
+offset_bottom = 960.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("1_jb0jv")

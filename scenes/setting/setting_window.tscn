@@ -1,42 +1,46 @@
-[gd_scene load_steps=8 format=3 uid="uid://mlqhxntoxv7c"]
+[gd_scene load_steps=12 format=3 uid="uid://mlqhxntoxv7c"]
 
 [ext_resource type="Theme" uid="uid://cmf5sy4hyu4kb" path="res://resources/themes/setting_theme.tres" id="1_hf726"]
 [ext_resource type="Shader" path="res://resources/shaders/button.gdshader" id="2_jeotl"]
 [ext_resource type="Texture2D" uid="uid://c7u77624yjtln" path="res://assets/icons/quit.svg" id="3_5w5h7"]
 [ext_resource type="Script" path="res://core/types/nodes/icon_button.gd" id="4_q7700"]
+[ext_resource type="PackedScene" uid="uid://65ritdyf5dsc" path="res://scenes/setting/auto_settings/auto_settings.tscn" id="5_7pw1j"]
+[ext_resource type="Script" path="res://core/settings/types/settings_general.gd" id="6_5dlui"]
+[ext_resource type="Script" path="res://core/settings/types/settings_pokemon.gd" id="7_2mw2r"]
 
 [sub_resource type="GDScript" id="GDScript_5fx5e"]
 script/source = "extends Panel
 
-@onready var websocket_address = %WSLineEdit
-@onready var pokemon_command = %PokeCmdEdit
-@onready var pokemon_volume = %PokeVolSlider
 
-func _ready() -> void:
-	load_settings()
+@onready var settings_container = %SettingsContainer 
 
-func save_settings():
-	SettingsManager.set_setting(\"POKEMON_COMMAND\", pokemon_command.text)
-	SettingsManager.set_setting(\"POKEMON_VOLUME\", pokemon_volume.value)
-	SettingsManager.set_setting(\"WEBSOCKET_ADDRESS\", websocket_address.text)
-	SettingsManager.save()
 
-func load_settings():
-	pokemon_command.text = SettingsManager.get_setting(\"POKEMON_COMMAND\")
-	pokemon_volume.value = SettingsManager.get_setting(\"POKEMON_VOLUME\")
-	websocket_address.text = SettingsManager.get_setting(\"WEBSOCKET_ADDRESS\")
+func _save_settings():
+	for auto_settings in settings_container.get_children():
+		auto_settings.save_settings()
+	
+	SettingsManager.save_settings()
+
 
 func _on_quit_button_pressed() -> void:
-	save_settings()
+	_save_settings()
 	hide()
 "
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_120jx"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_oyr61"]
 shader = ExtResource("2_jeotl")
 shader_parameter/target_color = Color(1, 1, 1, 1)
 
-[sub_resource type="LabelSettings" id="LabelSettings_mcs6n"]
-font_size = 26
+[sub_resource type="Resource" id="Resource_5pghn"]
+script = ExtResource("6_5dlui")
+websocket_url = "ws://127.0.0.1:8080"
+general_volume = 0.5
+
+[sub_resource type="Resource" id="Resource_ojk78"]
+script = ExtResource("7_2mw2r")
+pokemon_command = "!pkmn"
+shiny_rate = 512
+pokemon_volume = 0.5
 
 [node name="SettingWindow" type="Panel"]
 custom_minimum_size = Vector2(750, 600)
@@ -63,7 +67,7 @@ layout_mode = 2
 alignment = 2
 
 [node name="QuitButton" type="TextureButton" parent="VBoxContainer/HBoxContainer"]
-material = SubResource("ShaderMaterial_120jx")
+material = SubResource("ShaderMaterial_oyr61")
 custom_minimum_size = Vector2(30, 30)
 layout_mode = 2
 texture_normal = ExtResource("3_5w5h7")
@@ -73,74 +77,21 @@ script = ExtResource("4_q7700")
 texture = ExtResource("3_5w5h7")
 icon_size = 30.0
 
-[node name="TabContainer" type="TabContainer" parent="VBoxContainer"]
+[node name="SettingsContainer" type="TabContainer" parent="VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
 current_tab = 0
 
-[node name="General" type="VBoxContainer" parent="VBoxContainer/TabContainer"]
+[node name="General" parent="VBoxContainer/SettingsContainer" instance=ExtResource("5_7pw1j")]
 layout_mode = 2
+settings = SubResource("Resource_5pghn")
 metadata/_tab_index = 0
 
-[node name="StreamerBotLabel2" type="Label" parent="VBoxContainer/TabContainer/General"]
+[node name="Pokemon" parent="VBoxContainer/SettingsContainer" instance=ExtResource("5_7pw1j")]
+visible = false
 layout_mode = 2
-text = "StreamerBot"
-label_settings = SubResource("LabelSettings_mcs6n")
-
-[node name="HSeparator2" type="HSeparator" parent="VBoxContainer/TabContainer/General"]
-layout_mode = 2
-
-[node name="GridContainer2" type="GridContainer" parent="VBoxContainer/TabContainer/General"]
-layout_mode = 2
-columns = 2
-
-[node name="WSLabel" type="Label" parent="VBoxContainer/TabContainer/General/GridContainer2"]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Websocket address"
-
-[node name="WSLineEdit" type="LineEdit" parent="VBoxContainer/TabContainer/General/GridContainer2"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(300, 0)
-layout_mode = 2
-size_flags_horizontal = 3
-placeholder_text = "ws://127.0.0.1:8080"
-
-[node name="StreamerBotLabel3" type="Label" parent="VBoxContainer/TabContainer/General"]
-layout_mode = 2
-text = "Pokemon"
-label_settings = SubResource("LabelSettings_mcs6n")
-
-[node name="HSeparator3" type="HSeparator" parent="VBoxContainer/TabContainer/General"]
-layout_mode = 2
-
-[node name="GridContainer3" type="GridContainer" parent="VBoxContainer/TabContainer/General"]
-layout_mode = 2
-columns = 2
-
-[node name="PokeCmdLabel" type="Label" parent="VBoxContainer/TabContainer/General/GridContainer3"]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Pokemon command"
-
-[node name="PokeCmdEdit" type="LineEdit" parent="VBoxContainer/TabContainer/General/GridContainer3"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(300, 0)
-layout_mode = 2
-size_flags_horizontal = 3
-placeholder_text = "!pkmn"
-
-[node name="PokeVolLabel" type="Label" parent="VBoxContainer/TabContainer/General/GridContainer3"]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Pokemon volume"
-
-[node name="PokeVolSlider" type="HSlider" parent="VBoxContainer/TabContainer/General/GridContainer3"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(300, 0)
-layout_mode = 2
-size_flags_horizontal = 3
-max_value = 1.0
-step = 0.05
+settings = SubResource("Resource_ojk78")
+metadata/_tab_index = 1
 
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/QuitButton" to="." method="_on_quit_button_pressed"]

@@ -30,7 +30,7 @@ func _process(_delta: float) -> void:
 		set_process(false)
 
 func connect_to_websocket():
-	var websocket_url = SettingsManager.get_setting("WEBSOCKET_ADDRESS")
+	var websocket_url = SettingsManager.settings.general.websocket_url
 	socket = WebSocketPeer.new()
 	
 	status = CONNECTING
