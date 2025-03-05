@@ -1,12 +1,12 @@
 [gd_scene load_steps=12 format=3 uid="uid://mlqhxntoxv7c"]
 
 [ext_resource type="Theme" uid="uid://cmf5sy4hyu4kb" path="res://resources/themes/setting_theme.tres" id="1_hf726"]
-[ext_resource type="Shader" path="res://resources/shaders/button.gdshader" id="2_jeotl"]
+[ext_resource type="Shader" uid="uid://bxqe2o7thmehu" path="res://resources/shaders/button.gdshader" id="2_jeotl"]
 [ext_resource type="Texture2D" uid="uid://c7u77624yjtln" path="res://assets/icons/quit.svg" id="3_5w5h7"]
-[ext_resource type="Script" path="res://core/types/nodes/icon_button.gd" id="4_q7700"]
+[ext_resource type="Script" uid="uid://6cco6ht3qkbo" path="res://core/types/nodes/icon_button.gd" id="4_q7700"]
 [ext_resource type="PackedScene" uid="uid://65ritdyf5dsc" path="res://scenes/setting/auto_settings/auto_settings.tscn" id="5_7pw1j"]
-[ext_resource type="Script" path="res://core/settings/types/settings_general.gd" id="6_5dlui"]
-[ext_resource type="Script" path="res://core/settings/types/settings_pokemon.gd" id="7_2mw2r"]
+[ext_resource type="Script" uid="uid://b5wdkduka277v" path="res://core/settings/types/settings_general.gd" id="6_5dlui"]
+[ext_resource type="Script" uid="uid://bwjpwhlgn8jsa" path="res://core/settings/types/settings_pokemon.gd" id="7_2mw2r"]
 
 [sub_resource type="GDScript" id="GDScript_5fx5e"]
 script/source = "extends Panel
@@ -39,7 +39,6 @@ general_volume = 0.5
 [sub_resource type="Resource" id="Resource_ojk78"]
 script = ExtResource("7_2mw2r")
 pokemon_command = "!pkmn"
-shiny_rate = 512
 pokemon_volume = 0.5
 
 [node name="SettingWindow" type="Panel"]

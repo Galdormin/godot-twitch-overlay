@@ -1,24 +1,24 @@
 [gd_scene load_steps=13 format=3 uid="uid://cqqjdknjt3jmf"]
 
-[ext_resource type="Script" path="res://scenes/main.gd" id="1_2kwq3"]
+[ext_resource type="Script" uid="uid://ko4prsjgde4x" path="res://scenes/main.gd" id="1_2kwq3"]
 [ext_resource type="Theme" uid="uid://cmt2xjm462bjp" path="res://resources/themes/main_theme.tres" id="1_7qpmn"]
-[ext_resource type="Shader" path="res://resources/shaders/button.gdshader" id="1_oha5e"]
+[ext_resource type="Shader" uid="uid://bxqe2o7thmehu" path="res://resources/shaders/button.gdshader" id="1_oha5e"]
 [ext_resource type="Texture2D" uid="uid://qggt4pf6tocv" path="res://assets/icons/setting.svg" id="2_n0rtj"]
 [ext_resource type="Texture2D" uid="uid://dhtd2qkcn3d53" path="res://assets/icons/reload.svg" id="2_ynikt"]
-[ext_resource type="Script" path="res://core/types/nodes/icon_button.gd" id="4_jo2sw"]
+[ext_resource type="Script" uid="uid://6cco6ht3qkbo" path="res://core/types/nodes/icon_button.gd" id="4_jo2sw"]
 [ext_resource type="Texture2D" uid="uid://c7u77624yjtln" path="res://assets/icons/quit.svg" id="5_llr38"]
 [ext_resource type="PackedScene" uid="uid://mlqhxntoxv7c" path="res://scenes/setting/setting_window.tscn" id="8_6jvyh"]
 [ext_resource type="PackedScene" uid="uid://sxvk28gxkcqv" path="res://scenes/overlay/daily_pokemon.tscn" id="9_ofkvd"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_3h4vc"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_85g3d"]
 shader = ExtResource("1_oha5e")
 shader_parameter/target_color = Color(0.269865, 0.133401, 0.0951754, 1)
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_527hs"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_choun"]
 shader = ExtResource("1_oha5e")
 shader_parameter/target_color = Color(0.269865, 0.133401, 0.0951754, 1)
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_g8y1l"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ya4ey"]
 shader = ExtResource("1_oha5e")
 shader_parameter/target_color = Color(0.269865, 0.133401, 0.0951754, 1)
 
@@ -61,7 +61,7 @@ layout_mode = 2
 text = "Connection en cours ..."
 
 [node name="ReloadButton" type="TextureButton" parent="MarginContainer/SettingContainer"]
-material = SubResource("ShaderMaterial_3h4vc")
+material = SubResource("ShaderMaterial_85g3d")
 custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
 texture_normal = ExtResource("2_ynikt")
@@ -70,7 +70,7 @@ stretch_mode = 5
 script = ExtResource("4_jo2sw")
 
 [node name="SettingButton" type="TextureButton" parent="MarginContainer/SettingContainer"]
-material = SubResource("ShaderMaterial_527hs")
+material = SubResource("ShaderMaterial_choun")
 custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
 texture_normal = ExtResource("2_n0rtj")
@@ -79,7 +79,7 @@ stretch_mode = 5
 script = ExtResource("4_jo2sw")
 
 [node name="QuitButton" type="TextureButton" parent="MarginContainer/SettingContainer"]
-material = SubResource("ShaderMaterial_g8y1l")
+material = SubResource("ShaderMaterial_ya4ey")
 custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
 texture_normal = ExtResource("5_llr38")

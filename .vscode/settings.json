@@ -1,3 +1,7 @@
 {
-    "godotTools.editorPath.godot4": "c:\\Users\\theop\\Desktop\\Godot_v4.3-stable_win64.exe"
+    "files.exclude": {
+        "**/*.tmp": true,
+        "**/*.uid": true,
+        "**/*.import": true
+    }
 }

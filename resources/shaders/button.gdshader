@@ -4,7 +4,7 @@ uniform vec4 target_color : source_color; // Couleur de remplacement
 
 void fragment() {
     vec4 tex_color = texture(TEXTURE, UV);
-    
+
     // Détecte si le pixel est noir (ou proche)
     float intensity = dot(tex_color.rgb, vec3(0.333)); // Luminosité moyenne
     if (intensity < 0.2) {

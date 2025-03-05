@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://65ritdyf5dsc"]
 
-[ext_resource type="Script" path="res://scenes/setting/auto_settings/auto_settings.gd" id="1_jb0jv"]
+[ext_resource type="Script" uid="uid://isnk4q4cq77q" path="res://scenes/setting/auto_settings/auto_settings.gd" id="1_jb0jv"]
 
 [node name="AutoSettings" type="VBoxContainer"]
 offset_right = 1600.0
