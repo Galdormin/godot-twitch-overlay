@@ -1,5 +1,0 @@
-{
-	"name": "Pokemon",
-	"settings": "res://overlay/pokemon/pokemon_settings.gd",
-	"scene": "res://overlay/pokemon/daily_pokemon.tscn"
-}

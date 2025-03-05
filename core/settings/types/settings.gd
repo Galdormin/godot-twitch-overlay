@@ -2,8 +2,7 @@ class_name Settings
 extends Resource
 
 
-
-func get_setting_properties() -> Dictionary:
+func get_settings_properties() -> Dictionary:
 	var properties = {}
 	var current_section = ""
 	
@@ -30,6 +29,7 @@ func get_setting_properties() -> Dictionary:
 			properties[current_section].append(property)
 	
 	return properties
+
 
 func get_default_value(property_name: String) -> Variant:
 	var default_instance = get_script().new()

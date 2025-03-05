@@ -12,8 +12,8 @@ class Pokemon:
 		
 		return default_url
 
-const NB_POKEMON = 1025 #TODO: Put in settings
-const SHINY_RATE = 512 #TODO: Put in settings
+const NB_POKEMON = 1025 # TODO: Put in settings
+const SHINY_RATE = 512 # TODO: Put in settings
 
 @onready var display_timer = $DisplayTimer
 
@@ -50,7 +50,7 @@ func request_pokemon(user: TwitchUser):
 	var cry_stream = await HttpRequestManager.request_ogg(pokemon.cry_url)
 	if cry_stream is Ok:
 		pokemon_audio.stream = cry_stream.unwrap()
-		pokemon_audio.volume_db = linear_to_db(SettingsManager.settings.pokemon.pokemon_volume)
+		pokemon_audio.volume_db = linear_to_db(_get_settings().pokemon_volume)
 	else:
 		Loggie.msg("Request pokemon", poke_id, "without cry.").warn()
 	
@@ -77,6 +77,9 @@ func fade_animation():
 func stop_animation():
 	is_active = false
 	pokemon_container.hide()
+
+func _get_settings() -> PokemonSettings:
+	return SettingsManager.get_settings("pokemon")
 
 func _get_pokemon_data(poke_id: int) -> Pokemon:
 	# Request Pokemon data
@@ -116,7 +119,7 @@ func _get_daily_hash(user: TwitchUser) -> int:
 #region Signals
 
 func _on_command_received(command_name: String, user: TwitchUser):
-	if command_name != SettingsManager.settings.pokemon.pokemon_command:
+	if command_name != _get_settings().pokemon_command:
 		return
 	
 	request_pokemon(user)

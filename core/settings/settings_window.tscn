@@ -6,7 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://c7u77624yjtln" path="res://assets/icons/quit.svg" id="3_5w5h7"]
 [ext_resource type="Script" uid="uid://6cco6ht3qkbo" path="res://core/types/nodes/icon_button.gd" id="4_q7700"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_us7jg"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_acigy"]
 shader = ExtResource("2_jeotl")
 shader_parameter/target_color = Color(1, 1, 1, 1)
 
@@ -35,7 +35,7 @@ layout_mode = 2
 alignment = 2
 
 [node name="QuitButton" type="TextureButton" parent="VBoxContainer/HBoxContainer"]
-material = SubResource("ShaderMaterial_us7jg")
+material = SubResource("ShaderMaterial_acigy")
 custom_minimum_size = Vector2(30, 30)
 layout_mode = 2
 texture_normal = ExtResource("3_5w5h7")

@@ -19,8 +19,9 @@ config/icon="res://assets/icons/app_icon.svg"
 [autoload]
 
 Loggie="*res://addons/loggie/loggie.gd"
-StreamerBotManager="*res://core/managers/streamer_bot_manager.gd"
+OverlayLoader="*res://core/managers/overlay_loader.gd"
 SettingsManager="*res://core/managers/settings_manager.gd"
+StreamerBotManager="*res://core/managers/streamer_bot_manager.gd"
 HttpRequestManager="*res://core/managers/http_request_manager.gd"
 
 [display]

@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="Overlay" load_steps=5 format=3 uid="uid://d2grgaisslujo"]
+
+[ext_resource type="PackedScene" uid="uid://sxvk28gxkcqv" path="res://overlay/pokemon/daily_pokemon.tscn" id="1_2nft3"]
+[ext_resource type="Script" uid="uid://bwdjjch06bv5e" path="res://core/types/resources/overlay.gd" id="1_brnsg"]
+[ext_resource type="Script" uid="uid://bwjpwhlgn8jsa" path="res://overlay/pokemon/pokemon_settings.gd" id="2_7rs3o"]
+
+[sub_resource type="Resource" id="Resource_3xtpb"]
+script = ExtResource("2_7rs3o")
+pokemon_command = "!pkmn"
+pokemon_volume = 0.5
+metadata/_custom_type_script = "uid://bwjpwhlgn8jsa"
+
+[resource]
+script = ExtResource("1_brnsg")
+name = "pokemon"
+scene = ExtResource("1_2nft3")
+settings = SubResource("Resource_3xtpb")
+metadata/_custom_type_script = "uid://bwdjjch06bv5e"

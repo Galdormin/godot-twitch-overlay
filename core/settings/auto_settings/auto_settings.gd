@@ -14,21 +14,21 @@ func _ready():
 
 
 func save_settings():
-	for category in SettingsManager.settings.get_setting_properties():
-		var cat_setting = SettingsManager.settings.get(category)
+	for category in SettingsManager.get_settings_properties():
+		var cat_setting = SettingsManager.get_settings(category)
 		if cat_setting.get_script() == settings.get_script():
-			SettingsManager.settings.set(category, settings)
+			SettingsManager.set_settings(category, settings)
 
 
 func load_settings():
-	for category in SettingsManager.settings.get_setting_properties():
-		var cat_setting = SettingsManager.settings.get(category)
+	for category in SettingsManager.get_settings_properties():
+		var cat_setting = SettingsManager.get_settings(category)
 		if cat_setting.get_script() == settings.get_script():
 			settings = cat_setting
 
 
 func _populate_settings():
-	var properties = settings.get_setting_properties()
+	var properties = settings.get_settings_properties()
 	for section in properties:
 		_add_section(section)
 		for property in properties[section]:
@@ -42,7 +42,7 @@ func _add_section(section_name: String):
 	add_child(HSeparator.new())
 
 
-func _add_input(property: Dictionary):	
+func _add_input(property: Dictionary):
 	var input_container = HBoxContainer.new()
 	
 	var input_label = Label.new()

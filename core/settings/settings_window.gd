@@ -1,6 +1,11 @@
 extends Panel
 
-@onready var settings_container = %SettingsContainer 
+@onready var settings_container = %SettingsContainer
+
+func _ready() -> void:
+	for category in SettingsManager.get_settings_categories():
+		var tab_name = StringUtils.snake_case_to_title(category)
+		add_settings(tab_name, SettingsManager.get_settings(category))
 
 
 func add_settings(tab_name: String, settings: Settings):

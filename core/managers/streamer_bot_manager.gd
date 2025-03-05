@@ -12,7 +12,6 @@ var status = CLOSED:
 		status = p_status
 
 func _ready() -> void:
-	await SettingsManager.ready
 	connect_to_websocket()
 
 func _process(_delta: float) -> void:
@@ -30,7 +29,7 @@ func _process(_delta: float) -> void:
 		set_process(false)
 
 func connect_to_websocket():
-	var websocket_url = SettingsManager.settings.general.websocket_url
+	var websocket_url = SettingsManager.get_settings("general").websocket_url
 	socket = WebSocketPeer.new()
 	
 	status = CONNECTING

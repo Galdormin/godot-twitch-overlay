@@ -9,5 +9,5 @@ func _init(p_value: Variant):
 func unwrap() -> Variant:
 	return value
 
-func unwrap_or(default: Variant) -> Variant:
+func unwrap_or(_default: Variant) -> Variant:
 	return value

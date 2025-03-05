@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://cqqjdknjt3jmf"]
+[gd_scene load_steps=14 format=3 uid="uid://cqqjdknjt3jmf"]
 
 [ext_resource type="Script" uid="uid://ko4prsjgde4x" path="res://core/main.gd" id="1_2kwq3"]
 [ext_resource type="Theme" uid="uid://cmt2xjm462bjp" path="res://resources/themes/main_theme.tres" id="1_7qpmn"]
@@ -8,16 +8,21 @@
 [ext_resource type="Script" uid="uid://6cco6ht3qkbo" path="res://core/types/nodes/icon_button.gd" id="4_jo2sw"]
 [ext_resource type="Texture2D" uid="uid://c7u77624yjtln" path="res://assets/icons/quit.svg" id="5_llr38"]
 [ext_resource type="PackedScene" uid="uid://mlqhxntoxv7c" path="res://core/settings/settings_window.tscn" id="8_6jvyh"]
+[ext_resource type="Texture2D" uid="uid://dfbjnpg4sgkuv" path="res://assets/icons/folder.svg" id="8_jsmgm"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_tipki"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jsmgm"]
 shader = ExtResource("1_oha5e")
 shader_parameter/target_color = Color(0.269865, 0.133401, 0.0951754, 1)
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_85g3d"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_xhu5d"]
 shader = ExtResource("1_oha5e")
 shader_parameter/target_color = Color(0.269865, 0.133401, 0.0951754, 1)
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_choun"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_rayt5"]
+shader = ExtResource("1_oha5e")
+shader_parameter/target_color = Color(0.269865, 0.133401, 0.0951754, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_510js"]
 shader = ExtResource("1_oha5e")
 shader_parameter/target_color = Color(0.269865, 0.133401, 0.0951754, 1)
 
@@ -39,7 +44,12 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
+[node name="OverlayContainer" type="AspectRatioContainer" parent="MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
 [node name="SettingWindow" parent="MarginContainer" instance=ExtResource("8_6jvyh")]
+unique_name_in_owner = true
 visible = false
 layout_mode = 2
 size_flags_horizontal = 4
@@ -57,7 +67,7 @@ layout_mode = 2
 text = "Connection en cours ..."
 
 [node name="ReloadButton" type="TextureButton" parent="MarginContainer/SettingContainer"]
-material = SubResource("ShaderMaterial_tipki")
+material = SubResource("ShaderMaterial_jsmgm")
 custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
 texture_normal = ExtResource("2_ynikt")
@@ -66,7 +76,7 @@ stretch_mode = 5
 script = ExtResource("4_jo2sw")
 
 [node name="SettingButton" type="TextureButton" parent="MarginContainer/SettingContainer"]
-material = SubResource("ShaderMaterial_85g3d")
+material = SubResource("ShaderMaterial_xhu5d")
 custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
 texture_normal = ExtResource("2_n0rtj")
@@ -74,8 +84,18 @@ ignore_texture_size = true
 stretch_mode = 5
 script = ExtResource("4_jo2sw")
 
+[node name="OverlayButton" type="TextureButton" parent="MarginContainer/SettingContainer"]
+material = SubResource("ShaderMaterial_rayt5")
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture_normal = ExtResource("8_jsmgm")
+ignore_texture_size = true
+stretch_mode = 5
+script = ExtResource("4_jo2sw")
+texture = ExtResource("8_jsmgm")
+
 [node name="QuitButton" type="TextureButton" parent="MarginContainer/SettingContainer"]
-material = SubResource("ShaderMaterial_choun")
+material = SubResource("ShaderMaterial_510js")
 custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
 texture_normal = ExtResource("5_llr38")
@@ -85,4 +105,5 @@ script = ExtResource("4_jo2sw")
 
 [connection signal="pressed" from="MarginContainer/SettingContainer/ReloadButton" to="." method="_on_reload_button_pressed"]
 [connection signal="pressed" from="MarginContainer/SettingContainer/SettingButton" to="." method="_on_setting_button_pressed"]
+[connection signal="pressed" from="MarginContainer/SettingContainer/OverlayButton" to="." method="_on_overlay_button_pressed"]
 [connection signal="pressed" from="MarginContainer/SettingContainer/QuitButton" to="." method="_on_quit_button_pressed"]
