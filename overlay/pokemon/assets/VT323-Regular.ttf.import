@@ -3,12 +3,12 @@
 importer="font_data_dynamic"
 type="FontFile"
 uid="uid://cptajlv6cih2s"
-path="res://.godot/imported/VT323-Regular.ttf-fc3781f5235ceff7fbc465ccf3078d1e.fontdata"
+path="res://.godot/imported/VT323-Regular.ttf-0889d83af4d1d9ac548360574f885663.fontdata"
 
 [deps]
 
-source_file="res://assets/fonts/VT323-Regular.ttf"
-dest_files=["res://.godot/imported/VT323-Regular.ttf-fc3781f5235ceff7fbc465ccf3078d1e.fontdata"]
+source_file="res://overlay/pokemon/assets/VT323-Regular.ttf"
+dest_files=["res://.godot/imported/VT323-Regular.ttf-0889d83af4d1d9ac548360574f885663.fontdata"]
 
 [params]
 

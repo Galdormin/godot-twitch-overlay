@@ -2,7 +2,6 @@ class_name  AllSettings
 extends Resource
 
 @export var general: GeneralSettings = GeneralSettings.new()
-@export var pokemon: PokemonSettings = PokemonSettings.new()
 
 
 func get_setting_properties() -> Dictionary:

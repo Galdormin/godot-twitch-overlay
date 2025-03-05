@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://cifmubu6jbayx"
-path="res://.godot/imported/ditto.png-3ee0d98e2aef7b38a85b3e20ccaee778.ctex"
+path="res://.godot/imported/ditto.png-8785efdd6245c99173f2b67da3220a03.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/images/ditto.png"
-dest_files=["res://.godot/imported/ditto.png-3ee0d98e2aef7b38a85b3e20ccaee778.ctex"]
+source_file="res://overlay/pokemon/assets/ditto.png"
+dest_files=["res://.godot/imported/ditto.png-8785efdd6245c99173f2b67da3220a03.ctex"]
 
 [params]
 

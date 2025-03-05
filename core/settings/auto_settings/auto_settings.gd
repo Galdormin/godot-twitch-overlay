@@ -6,7 +6,7 @@ extends VBoxContainer
 
 func _ready():
 	if settings == null:
-		Loggie.msg("No settings definied in AutoSettings.").error()
+		Loggie.msg("No settings defined in AutoSettings.").error()
 		return
 	
 	load_settings()
